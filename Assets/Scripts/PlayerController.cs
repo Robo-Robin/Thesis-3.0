@@ -10,17 +10,16 @@ public class PlayerController : MonoBehaviour
     public float gravity = 20.0f;
 
     public float movementAcceleration = 375.0f;
-    float curSpeedX = 0f;
-    float curSpeedY = 0f;
+    public float curSpeedX = 0f;
+    public float curSpeedY = 0f;
+
+    [HideInInspector]
+    public bool isRunning;
 
     public Camera playerCamera;
     public float lookSpeed = 1.0f;
     public float lookUpwardsLimit = -45f;
     public float lookDownwardsLimit = 90f;
-
-    //was used in try 1
-    public float lookingAcceleration = 150f;
-
   
     public float lookUpSnapBounds = 15f;
     private float snapTimer = 0f;
@@ -31,45 +30,63 @@ public class PlayerController : MonoBehaviour
     CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;
 
-    //used in try 2 and 3
-    [SerializeField]
-    private AnimationCurve lookCurve;
-    public float smoothMinAngle = 15f;
-    float timetolooktimer = 0f;
-    float timeInCurve = 0f;
+    public float smoothingSpeed = 0f;
+    public float smoothingTime = 0f;
 
-    public float smoothingTime = 5f;
-
-    float wantedRotationX = 0;
+    float wantedXRotation;
     float currentXRotation;
 
-    public float digMinimumAngle = 55f;
-    RaycastHit hit;
-    [HideInInspector]
-    public bool canDig;
-    bool isDigging;
-
-    public GameObject digObject;
+    float wantedYRotation;
+    float currentYRotation;
 
     [HideInInspector]
     public bool canMove = true;
 
+    //pretty much anything past here can be cut out if you want just a fps controller
+    public float digMinimumAngle = 55f;
+    RaycastHit hit;
+    [HideInInspector]
+    public bool canDig;
+    public float digCooldown;
+    float digCooldownTimer;
+    bool isDigging;
+
+    public GameObject digObject;
+    AudioSource playerAudioSource;
+
+    //0 is dig, 1 is howl
+    [SerializeField]
+    List<AudioClip> playerOneshots = new List<AudioClip>();
+    bool canHowl;
+    [SerializeField] float howlCooldown;
+    float howlCooldownTimer;
+    bool isHowling;
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-
+        
         // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        isRunning = false;
+
+        playerAudioSource = GetComponent<AudioSource>();
+        canHowl = true;
+        isHowling = false;
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
         // We are grounded, so recalculate move direction based on axes
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
         // Press Left Shift to run
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
+        isRunning = Input.GetKey(KeyCode.LeftShift);
         float wantedSpeedX = canMove ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;
         float wantedSpeedY = canMove ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Horizontal") : 0;
 
@@ -104,73 +121,70 @@ public class PlayerController : MonoBehaviour
         // Player and Camera rotation
         if (canMove)
         {
-            wantedRotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
-            wantedRotationX = Mathf.Clamp(wantedRotationX, lookUpwardsLimit, lookDownwardsLimit);
-            if(Input.GetAxis("Mouse Y") != 0)
-            {
-                timetolooktimer = smoothingTime / 2;
-            }
+            wantedXRotation += -Input.GetAxis("Mouse Y") * lookSpeed;
+            wantedXRotation = Mathf.Clamp(wantedXRotation, lookUpwardsLimit, lookDownwardsLimit);
 
-            //try 1 - smoothdamp requires velocity vectors and not a solid float value - will not work
-            /* currentXRotation = Mathf.SmoothDamp(currentXRotation, wantedRotationX, lookingAcceleration * Time.deltaTime, snapSpeed, lookSpeed);*/
-
-            //currently below does the exact opposite of what i want - its fast on the ends and slow in the middle. 
-            /*float rotationDifferenceX = Mathf.Abs(wantedRotationX - currentXRotation);
-            if (currentXRotation != wantedRotationX)
+            //smoothing simple
+            if (wantedXRotation != currentXRotation)
             {
-                smoothingTime = Mathf.Abs(wantedRotationX - currentXRotation) / lookSpeed;
-                timetolooktimer += Time.deltaTime;
-                timeInCurve = lookCurve.Evaluate(timetolooktimer / smoothingTime);
-                currentXRotation = Mathf.Lerp(currentXRotation, wantedRotationX, timeInCurve);
-            }
-            else
-            {
-                timetolooktimer = 0f;
-                timeInCurve = 0f;
-            }*/
-
-            //try 3
-            //note for later when youre working on this again - the speed at which you move should scale with distance/deltaAngle
-            //and the curve should only really take effect at the ends. not super sure how to do this
-            //because the player can just swing their mouse around wildly
-            if(wantedRotationX!= currentXRotation)
-            {
-                timetolooktimer += Time.deltaTime * 30f;
-                timeInCurve = lookCurve.Evaluate(timetolooktimer / smoothingTime);
-                Debug.Log(timeInCurve);
-                currentXRotation = Mathf.Lerp(currentXRotation, wantedRotationX, timeInCurve);
-
+                smoothingSpeed = Mathf.Abs(wantedXRotation - currentXRotation) / smoothingTime;
+                currentXRotation = Mathf.MoveTowards(currentXRotation, wantedXRotation, smoothingSpeed);
             }
 
             playerCamera.transform.localRotation = Quaternion.Euler(currentXRotation, 0, 0);
-            
+
             //player y rotation
-            transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+            wantedYRotation = Input.GetAxis("Mouse X") * lookSpeed;
+            if (wantedYRotation != currentYRotation)
+            {
+                smoothingSpeed = Mathf.Abs(wantedYRotation - currentYRotation) / smoothingTime;
+                currentYRotation = Mathf.MoveTowards(currentYRotation, wantedYRotation, smoothingSpeed);
+            }
+
+            transform.rotation *= Quaternion.Euler(0, currentYRotation, 0);
             
             //snapping bounds from above to middle
-            /*if(currentXRotation < -lookUpSnapBounds)
+            if(currentXRotation < -lookUpSnapBounds)
             {
                 UpdateSnapTimer();
             }
             else
             {
                 snapTimer = 0f;
-            }*/
+            }
         }
 
-        if(currentXRotation >= digMinimumAngle)
+        //also take out if you just want the whole fps controller bit
+        if(currentXRotation >= digMinimumAngle && isDigging == false)
         {
             canDig = true;
+            
             if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 100f))
             {
                 Debug.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * 100.0f, Color.red);
             }
         }
+        else
+        {
+            canDig = false;
+        }
 
         if(canDig == true && Input.GetKeyDown(KeyCode.Space))
         {
+            digCooldownTimer = 0f;
             isDigging = true;
-            Instantiate(digObject, hit.point, Quaternion.identity);
+            playerAudioSource.PlayOneShot(playerAudioSource.clip);
+            StartCoroutine(DigCooldown());
+            
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q) && canHowl == true && isHowling == false)
+        {
+            lookUpwardsLimit = -90f;
+            wantedXRotation = -75f;
+            howlCooldownTimer = 0f;
+            StartCoroutine(HowlCooldown());
+            isHowling = true;
         }
     }
     void UpdateSnapTimer()
@@ -179,8 +193,56 @@ public class PlayerController : MonoBehaviour
         if (snapTimer >= snapTimerLimit)
         {
 /*            playerCamera.transform.localRotation = Quaternion.Euler(0, 0, 0);*/
-            wantedRotationX = 0;
+            wantedXRotation = 0;
             snapTimer = 0f;
         }
+    }
+
+    IEnumerator DigCooldown()
+    {
+        while(digCooldownTimer <= digCooldown)
+        {
+            digCooldownTimer += Time.deltaTime;
+            canDig = false;
+            canMove = false;
+            yield return new WaitForEndOfFrame();
+        }
+
+        if(digCooldownTimer >= digCooldown)
+        {
+            canMove = true;
+            canDig = true;
+            isDigging = false;
+            Instantiate(digObject, hit.point, Quaternion.Euler(-90, 0, 0));
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    IEnumerator HowlCooldown()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        canMove = false;
+        playerAudioSource.clip = playerOneshots[1];
+        playerAudioSource.PlayOneShot(playerAudioSource.clip);
+
+        while (howlCooldownTimer <= howlCooldown)
+        {
+            howlCooldownTimer += Time.deltaTime;
+            canHowl = false;
+            canMove = false;
+            yield return new WaitForEndOfFrame();
+        }
+
+        if (howlCooldownTimer > howlCooldown)
+        {
+            canMove = true;
+            canHowl = true;
+            isHowling = false;
+            playerAudioSource.clip = playerOneshots[0];
+            yield return new WaitForEndOfFrame();
+        }
+        lookUpwardsLimit = -45f;
+        wantedXRotation = 0f;
+
     }
 }
