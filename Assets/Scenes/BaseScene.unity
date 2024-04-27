@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: b0d54943a8b38e34a96aa22b5de5bc08, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -37,8 +37,8 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.023526542, g: 0.017765276, b: 0.011545396, a: 1}
+  m_Sun: {fileID: 410087040}
+  m_IndirectSpecularColor: {r: 0.0018921145, g: 0.0013361382, b: 0.0012313782, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,8 +97,10 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 75d709cfeafdecb409d4111a8dd67fd8,
+    type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 49043e9e61a30d341b52e287470cd448,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -416,13 +418,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.07937484, y: -0.2579437, z: -0.021268426, w: 0.962659}
+  m_LocalRotation: {x: 0.4222304, y: -0.23278202, z: 0.11313628, w: 0.86875445}
   m_LocalPosition: {x: 4.5, y: 9.3, z: -3.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -9.427, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 51.841, y: -30, z: 0}
 --- !u!114 &410087042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -903,7 +905,7 @@ MonoBehaviour:
   snapTimerLimit: 2
   snapSpeed: 0.45
   smoothingSpeed: 3
-  smoothingTime: 17
+  smoothingTime: 20
   canMove: 1
   digMinimumAngle: 41.6
   canDig: 0
@@ -913,7 +915,9 @@ MonoBehaviour:
   playerOneshots:
   - {fileID: 8300000, guid: 64f94d28435e02142a4b7926e84ac35a, type: 3}
   - {fileID: 8300000, guid: e5a53efa4f4de4e4ba7fd28d92f5e49f, type: 3}
+  - {fileID: 8300000, guid: c6b3e29fd48590d48aef3489d346e05e, type: 3}
   howlCooldown: 5.03
+  sniffMinAngle: 50
 --- !u!82 &1953157244
 AudioSource:
   m_ObjectHideFlags: 0

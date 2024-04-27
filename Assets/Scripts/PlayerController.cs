@@ -54,13 +54,16 @@ public class PlayerController : MonoBehaviour
     public GameObject digObject;
     AudioSource playerAudioSource;
 
-    //0 is dig, 1 is howl
+    //0 is dig, 1 is howl, 2 is sniff
     [SerializeField]
     List<AudioClip> playerOneshots = new List<AudioClip>();
     bool canHowl;
     [SerializeField] float howlCooldown;
     float howlCooldownTimer;
-    bool isHowling;
+    bool isHowling = false;
+
+    [SerializeField] float sniffMinAngle;
+    bool isSniffing;
 
     void Start()
     {
@@ -173,7 +176,7 @@ public class PlayerController : MonoBehaviour
         {
             digCooldownTimer = 0f;
             isDigging = true;
-            playerAudioSource.PlayOneShot(playerAudioSource.clip);
+            
             StartCoroutine(DigCooldown());
             
         }
@@ -185,6 +188,25 @@ public class PlayerController : MonoBehaviour
             howlCooldownTimer = 0f;
             StartCoroutine(HowlCooldown());
             isHowling = true;
+        }
+
+        if (currentXRotation > sniffMinAngle && isSniffing == false)
+        {
+            isSniffing = true;
+            playerAudioSource.clip = playerOneshots[2];
+            playerAudioSource.loop = true;
+            if(playerAudioSource.isPlaying == false)
+            {
+                playerAudioSource.Play();
+            }
+        }
+        else if(currentXRotation < sniffMinAngle && isSniffing == true)
+        {
+            playerAudioSource.Stop();
+            isSniffing = false;
+            playerAudioSource.loop = false;
+            playerAudioSource.clip = playerOneshots[0];
+
         }
     }
     void UpdateSnapTimer()
@@ -200,7 +222,9 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator DigCooldown()
     {
-        while(digCooldownTimer <= digCooldown)
+        playerAudioSource.clip = playerOneshots[0];
+        playerAudioSource.PlayOneShot(playerAudioSource.clip);
+        while (digCooldownTimer <= digCooldown)
         {
             digCooldownTimer += Time.deltaTime;
             canDig = false;
