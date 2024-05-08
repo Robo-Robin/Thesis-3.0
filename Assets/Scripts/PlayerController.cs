@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class PlayerController : MonoBehaviour
     public float lookSpeed = 1.0f;
     public float lookUpwardsLimit = -45f;
     public float lookDownwardsLimit = 90f;
-  
+
     public float lookUpSnapBounds = 15f;
     private float snapTimer = 0f;
     public float snapTimerLimit = 3f;
@@ -34,7 +35,7 @@ public class PlayerController : MonoBehaviour
     public float smoothingTime = 0f;
 
     float wantedXRotation;
-    float currentXRotation;
+    [HideInInspector] public float currentXRotation;
 
     float wantedYRotation;
     float currentYRotation;
@@ -52,18 +53,17 @@ public class PlayerController : MonoBehaviour
     bool isDigging;
 
     public GameObject digObject;
-    AudioSource playerAudioSource;
+    [HideInInspector] public AudioSource playerAudioSource;
 
     //0 is dig, 1 is howl, 2 is sniff
-    [SerializeField]
-    List<AudioClip> playerOneshots = new List<AudioClip>();
+    public List<AudioClip> playerOneshots = new List<AudioClip>();
     bool canHowl;
     [SerializeField] float howlCooldown;
     float howlCooldownTimer;
     bool isHowling = false;
 
-    [SerializeField] float sniffMinAngle;
-    bool isSniffing;
+    public float sniffMinAngle;
+    [HideInInspector] public bool isSniffing;
 
     void Start()
     {
@@ -166,6 +166,11 @@ public class PlayerController : MonoBehaviour
             {
                 Debug.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * 100.0f, Color.red);
             }
+
+            if (hit.collider.gameObject.tag == "Object")
+            {
+                hit.transform.gameObject.GetComponent<Interactable>().isRaycastedOn = true;
+            }
         }
         else
         {
@@ -174,7 +179,7 @@ public class PlayerController : MonoBehaviour
 
         if(canDig == true && Input.GetKeyDown(KeyCode.Space))
         {
-            digCooldownTimer = 0f;
+
             isDigging = true;
             
             StartCoroutine(DigCooldown());
@@ -222,7 +227,9 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator DigCooldown()
     {
+        Vector3 meshDistance;
         playerAudioSource.clip = playerOneshots[0];
+        playerAudioSource.volume = 0.8f;
         playerAudioSource.PlayOneShot(playerAudioSource.clip);
         while (digCooldownTimer <= digCooldown)
         {
@@ -237,9 +244,19 @@ public class PlayerController : MonoBehaviour
             canMove = true;
             canDig = true;
             isDigging = false;
-            Instantiate(digObject, hit.point, Quaternion.Euler(-90, 0, 0));
+            if (hit.collider.gameObject.tag == "Object")
+            {
+                meshDistance = new Vector3(0f, 0.5f, 0f);
+            }
+            else
+            {
+                meshDistance = new Vector3(0f, 0f, 0f);
+            }
+            Instantiate(digObject, hit.point - meshDistance, Quaternion.Euler(-90, 0, 0));
+            digCooldownTimer = 0f;
             yield return new WaitForEndOfFrame();
         }
+        
     }
 
     IEnumerator HowlCooldown()
