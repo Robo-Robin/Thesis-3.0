@@ -33,6 +33,7 @@ public class PlayerReticleChanger : MonoBehaviour
         else if(!myPlayerController.canDig)
         {
             baseReticleSprite = reticleImages[0];
+            reticleImage.sprite = baseReticleSprite;
         }
     }
 }

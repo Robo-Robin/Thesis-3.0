@@ -7,7 +7,7 @@ public class ObjectRevealBehavior : MonoBehaviour
 
     MeshRenderer myMesh;
 
-
+    AudioSource myAudioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -18,13 +18,14 @@ public class ObjectRevealBehavior : MonoBehaviour
         else
             Debug.Log("failed to get mesh");
 
+        myAudioSource = GetComponent<AudioSource>();
         
     }
 
     public void RevealObject()
     {
         myMesh.enabled = true;
-
+        myAudioSource.PlayOneShot(myAudioSource.clip);
     }
 
     public void IndicatorBehavior()
