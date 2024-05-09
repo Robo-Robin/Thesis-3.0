@@ -286,4 +286,14 @@ public class PlayerController : MonoBehaviour
         wantedXRotation = 0f;
 
     }
+
+    public void PlayerLock()
+    {
+        canMove = false;
+    }
+
+    public void PlayerUnlock()
+    {
+        canMove = true;
+    }
 }

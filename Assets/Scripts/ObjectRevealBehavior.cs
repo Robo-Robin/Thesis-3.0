@@ -28,8 +28,4 @@ public class ObjectRevealBehavior : MonoBehaviour
         myAudioSource.PlayOneShot(myAudioSource.clip);
     }
 
-    public void IndicatorBehavior()
-    {
-        
-    }
 }
