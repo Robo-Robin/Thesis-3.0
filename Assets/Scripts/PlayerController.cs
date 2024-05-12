@@ -81,10 +81,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        /*if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
-        }
+        }*/
+
         // We are grounded, so recalculate move direction based on axes
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
@@ -158,7 +159,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //also take out if you just want the whole fps controller bit
-        if(currentXRotation >= digMinimumAngle && isDigging == false)
+        if(currentXRotation >= digMinimumAngle && isDigging == false && canMove)
         {
             canDig = true;
             
@@ -186,16 +187,17 @@ public class PlayerController : MonoBehaviour
             
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && canHowl == true && isHowling == false)
+        if (Input.GetKeyDown(KeyCode.Q) && canHowl == true && isHowling == false && canMove)
         {
+            float resetLimit = lookUpwardsLimit;
             lookUpwardsLimit = -90f;
             wantedXRotation = -75f;
             howlCooldownTimer = 0f;
-            StartCoroutine(HowlCooldown());
+            StartCoroutine(HowlCooldown(resetLimit));
             isHowling = true;
         }
 
-        if (currentXRotation > sniffMinAngle && isSniffing == false)
+        if (currentXRotation > sniffMinAngle && isSniffing == false && canMove)
         {
             isSniffing = true;
             playerAudioSource.clip = playerOneshots[2];
@@ -205,7 +207,7 @@ public class PlayerController : MonoBehaviour
                 playerAudioSource.Play();
             }
         }
-        else if(currentXRotation < sniffMinAngle && isSniffing == true)
+        else if(currentXRotation < sniffMinAngle && isSniffing == true && canMove)
         {
             playerAudioSource.Stop();
             isSniffing = false;
@@ -241,8 +243,6 @@ public class PlayerController : MonoBehaviour
 
         if(digCooldownTimer >= digCooldown)
         {
-            canMove = true;
-            canDig = true;
             isDigging = false;
             if (hit.collider.gameObject.tag == "Object")
             {
@@ -251,6 +251,8 @@ public class PlayerController : MonoBehaviour
             else
             {
                 meshDistance = new Vector3(0f, 0f, 0f);
+                canMove = true;
+                canDig = true;
             }
             Instantiate(digObject, hit.point - meshDistance, Quaternion.Euler(-90, 0, 0));
             digCooldownTimer = 0f;
@@ -259,7 +261,7 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    IEnumerator HowlCooldown()
+    IEnumerator HowlCooldown(float resetLimit)
     {
         yield return new WaitForSecondsRealtime(0.5f);
         canMove = false;
@@ -282,7 +284,7 @@ public class PlayerController : MonoBehaviour
             playerAudioSource.clip = playerOneshots[0];
             yield return new WaitForEndOfFrame();
         }
-        lookUpwardsLimit = -45f;
+        lookUpwardsLimit = resetLimit;
         wantedXRotation = 0f;
 
     }
@@ -290,10 +292,12 @@ public class PlayerController : MonoBehaviour
     public void PlayerLock()
     {
         canMove = false;
+        canDig = false;
     }
 
     public void PlayerUnlock()
     {
         canMove = true;
+        canDig = true;
     }
 }

@@ -12,8 +12,10 @@ public class ResolveBehavior : MonoBehaviour
 
     float totalOdds;
 
-    Image image;
+    public StatsSO myStats;
 
+
+    Image image;
     //0 is human, 1 is beast
     public List<Sprite> resolutionSprites = new List<Sprite>();
 
@@ -50,11 +52,14 @@ public class ResolveBehavior : MonoBehaviour
         {
             image.sprite = resolutionSprites[0];
             resolutionText = "You have become more of a \n HUMAN";
+            //don't hardcode these, but do it later
+            myStats.HumanityChanger(20f);
         }
         else
         {
             image.sprite = resolutionSprites[1];
             resolutionText = "You have become more of a \n BEAST";
+            myStats.HumanityChanger(-20f);
         }
 
         myText.SetText(resolutionText);

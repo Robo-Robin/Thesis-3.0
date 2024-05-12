@@ -10,6 +10,8 @@ public class Interactable : MonoBehaviour
     bool isRevealed;
     public UnityEvent interactAction;
 
+    public UnityEvent alreadyRevealed;
+
     float revealingtimer;
     float revealingCooldown = 6f;
 
@@ -30,6 +32,11 @@ public class Interactable : MonoBehaviour
         {
             StartCoroutine(RevealInteraction());
         }
+        else if (isRaycastedOn && Input.GetKeyDown(interactionKey) && isRevealed)
+        {
+            revealingtimer = 0f;
+            StartCoroutine(AlreadyRevealedInteraction());
+        }
 
         if(isRaycastedOn && !isIndicated)
         {
@@ -46,12 +53,23 @@ public class Interactable : MonoBehaviour
 
     IEnumerator RevealInteraction()
     {
+        isRevealed = true;
         while(revealingtimer <= revealingCooldown)
         {
             revealingtimer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
         interactAction.Invoke();
+    }
+    
+    IEnumerator AlreadyRevealedInteraction()
+    {
+        while(revealingtimer <= revealingCooldown)
+        {
+            revealingtimer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        alreadyRevealed.Invoke();
     }
 
     private void OnTriggerExit(Collider other)
