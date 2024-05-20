@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c45cfe1171d4af14f8423b7b055b5f53, type: 3}
+  m_Name: 6 Key
+  m_EditorClassIdentifier: 
+  itemID: 6
+  itemName: Key to the Prize
+  itemText: A key that unlocks a vault in a long forgotten city, full of riches beyond
+    imagination. The prize is long gone, and the teeth on the key have been worn
+    down with age
+  dialogueStringSet:
+  - A key that unlocks a vault in a long forgotten city, full of riches beyond imagination.
+    The prize is long gone, and the teeth on the key have been worn down with age
+  oddsHumanAnimal: 95

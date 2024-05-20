@@ -53,13 +53,13 @@ public class ResolveBehavior : MonoBehaviour
             image.sprite = resolutionSprites[0];
             resolutionText = "You have become more of a \n HUMAN";
             //don't hardcode these, but do it later
-            myStats.HumanityChanger(20f);
+            myStats.HumanityChanger(Random.Range(2f, 20f));
         }
         else
         {
             image.sprite = resolutionSprites[1];
             resolutionText = "You have become more of a \n BEAST";
-            myStats.HumanityChanger(-20f);
+            myStats.HumanityChanger(Random.Range(-20f, -2f));
         }
 
         myText.SetText(resolutionText);

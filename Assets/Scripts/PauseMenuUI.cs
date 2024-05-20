@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PauseMenuUI : MonoBehaviour
 {
     [HideInInspector]
     public bool isPaused;
-    // Start is called before the first frame update
+
+    public StatsSO PlayerStats;
+
+    public GameObject ItemCountObject;
+    private TMP_Text itemCountText;
+
     void Start()
     {
-        
+        itemCountText = ItemCountObject.GetComponent<TMP_Text>();
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -37,6 +42,7 @@ public class PauseMenuUI : MonoBehaviour
         Time.timeScale = 0;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        SetItemsFound();
     }
     public void EndPauseMenu()
     {
@@ -44,9 +50,15 @@ public class PauseMenuUI : MonoBehaviour
         {
             transform.GetChild(i).gameObject.SetActive(false);
         }
+        isPaused = false;
         Time.timeScale = 1;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    void SetItemsFound()
+    {
+        itemCountText.SetText("# of Items Found: " + PlayerStats.itemsFound.ToString()) ;
     }
 
     public void OnQuitButton()

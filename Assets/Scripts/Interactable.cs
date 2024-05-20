@@ -19,10 +19,16 @@ public class Interactable : MonoBehaviour
     MeshRenderer indicatorMesh;
     bool isIndicated;
 
+    public int itemID;
+
+    public ObjectManagerBehavior myObjectManager;
+
     // Start is called before the first frame update
     void Start()
     {
         indicatorMesh = indicatorObject.GetComponent<MeshRenderer>();
+
+        myObjectManager = gameObject.GetComponentInParent<ObjectManagerBehavior>();
     }
 
     // Update is called once per frame
@@ -59,6 +65,7 @@ public class Interactable : MonoBehaviour
             revealingtimer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
+        SetCurrentItemFound();
         interactAction.Invoke();
     }
     
@@ -78,5 +85,10 @@ public class Interactable : MonoBehaviour
         {
             isRaycastedOn = false;
         }
+    }
+
+    public void SetCurrentItemFound()
+    {
+        myObjectManager.currentItemID = itemID;
     }
 }
