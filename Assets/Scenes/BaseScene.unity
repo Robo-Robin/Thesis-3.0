@@ -5002,7 +5002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb423c0fffaef1e4c9cd36a52318ae0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myPlayerController: {fileID: 0}
+  myPlayerController: {fileID: 1953157243}
   whichSniff: 2
 --- !u!135 &1953157246
 SphereCollider:
@@ -5984,6 +5984,11 @@ PrefabInstance:
         type: 3}
       propertyPath: itemID
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 555922181540733998, guid: 4f6666aec248d5a44923c11e09efa657,
+        type: 3}
+      propertyPath: interactionKey
+      value: 323
       objectReference: {fileID: 0}
     - target: {fileID: 555922181540733998, guid: 4f6666aec248d5a44923c11e09efa657,
         type: 3}

@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
             canDig = false;
         }
 
-        if(canDig == true && Input.GetKeyDown(KeyCode.Space))
+        if(canDig == true && Input.GetKeyDown(KeyCode.Mouse0))
         {
 
             isDigging = true;
@@ -187,7 +187,7 @@ public class PlayerController : MonoBehaviour
             
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && canHowl == true && isHowling == false && canMove)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && canHowl == true && isHowling == false && canMove)
         {
             float resetLimit = lookUpwardsLimit;
             lookUpwardsLimit = -90f;

@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93c57a4731c5ea540b21d68d37d61b4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionKey: 32
+  interactionKey: 323
   isRaycastedOn: 0
   interactAction:
     m_PersistentCalls:
