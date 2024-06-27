@@ -238,6 +238,7 @@ public class PlayerController : MonoBehaviour
             digCooldownTimer += Time.deltaTime;
             canDig = false;
             canMove = false;
+            canHowl = false;
             yield return new WaitForEndOfFrame();
         }
 
@@ -253,6 +254,7 @@ public class PlayerController : MonoBehaviour
                 meshDistance = new Vector3(0f, 0f, 0f);
                 canMove = true;
                 canDig = true;
+                canHowl = true;
             }
             Instantiate(digObject, hit.point - meshDistance, Quaternion.Euler(-90, 0, 0));
             digCooldownTimer = 0f;
@@ -293,11 +295,13 @@ public class PlayerController : MonoBehaviour
     {
         canMove = false;
         canDig = false;
+        canHowl = false;
     }
 
     public void PlayerUnlock()
     {
         canMove = true;
         canDig = true;
+        canHowl = true;
     }
 }
