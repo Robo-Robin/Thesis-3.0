@@ -19,12 +19,14 @@ public class NPCBehavior : MonoBehaviour
     private void OnEnable()
     {
         interactable = false;
-        //this is where we'll need to instantiate most things. we'll create the echo of this in "start" for now
     }
 
-    private void Start()
+    private void Update()
     {
-        
+        if (interacting && Input.GetKeyDown(KeyCode.E))
+        {
+            EndDialogue();
+        }
     }
 
     public void StartDialogue()
@@ -42,12 +44,14 @@ public class NPCBehavior : MonoBehaviour
             DialogueUI.transform.GetChild(i).gameObject.SetActive(false);
         }
         interacting = false;
+        myPlayer.PlayerUnlock();
     }
 
-    private void TalkToMe()
+    public void TalkToMe()
     {
         myPlayer.PlayerLock();
-
+        interacting = true;
+        StartDialogue();
 
     }
 
@@ -55,8 +59,13 @@ public class NPCBehavior : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            interactable = true;
+            myPlayer.NPCNearby = true;
         }
+    }
+
+    public void MakeInteractable()
+    {
+        interactable = true;
     }
 
     private void OnTriggerExit(Collider other)
@@ -64,6 +73,7 @@ public class NPCBehavior : MonoBehaviour
         if (other.tag == "Player")
         {
             interactable = false;
+            myPlayer.NPCNearby = false;
         }
     }
 }

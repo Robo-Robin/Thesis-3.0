@@ -9,6 +9,7 @@ public class PauseMenuUI : MonoBehaviour
     public bool isPaused;
 
     public StatsSO PlayerStats;
+    public PlayerController myPlayer;
 
     public GameObject ItemCountObject;
     private TMP_Text itemCountText;
@@ -22,6 +23,7 @@ public class PauseMenuUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !isPaused)
         {
+            myPlayer.PlayerLock();
             StartPauseMenu();
             isPaused = true;
         }
@@ -29,6 +31,7 @@ public class PauseMenuUI : MonoBehaviour
         {
             EndPauseMenu();
             isPaused = false;
+            myPlayer.PlayerUnlock();
         }
 
 
@@ -54,6 +57,8 @@ public class PauseMenuUI : MonoBehaviour
         Time.timeScale = 1;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        myPlayer.PlayerUnlock();
     }
 
     void SetItemsFound()

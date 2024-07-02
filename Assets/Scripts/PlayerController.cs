@@ -65,6 +65,9 @@ public class PlayerController : MonoBehaviour
     public float sniffMinAngle;
     [HideInInspector] public bool isSniffing;
 
+    public bool canSpeak;
+    public bool NPCNearby;
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -77,6 +80,8 @@ public class PlayerController : MonoBehaviour
         playerAudioSource = GetComponent<AudioSource>();
         canHowl = true;
         isHowling = false;
+        canSpeak = false;
+        NPCNearby = false;
     }
 
     void Update()
@@ -166,12 +171,14 @@ public class PlayerController : MonoBehaviour
             if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 100f))
             {
                 Debug.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * 100.0f, Color.red);
+
+                if (hit.collider.gameObject.tag == "Object")
+                {
+                    hit.transform.gameObject.GetComponent<Interactable>().isRaycastedOn = true;
+                }
             }
 
-            if (hit.collider.gameObject.tag == "Object")
-            {
-                hit.transform.gameObject.GetComponent<Interactable>().isRaycastedOn = true;
-            }
+           
         }
         else
         {
@@ -185,6 +192,36 @@ public class PlayerController : MonoBehaviour
             
             StartCoroutine(DigCooldown());
             
+        }
+
+        if (NPCNearby == true)
+        {
+            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 100f))
+            {
+                Debug.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * 100.0f, Color.red);
+
+                if (hit.collider.gameObject.tag == "NPC")
+                {
+                    NPCBehavior currentNPC = hit.collider.gameObject.GetComponent<NPCBehavior>();                    
+
+                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        currentNPC.TalkToMe();
+                    }
+                }
+                else
+                {
+                    canSpeak = false;
+                }
+            }
+            else
+            {
+                canSpeak = false;
+            }
+        }
+        else
+        {
+            canSpeak = false;
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1) && canHowl == true && isHowling == false && canMove)
