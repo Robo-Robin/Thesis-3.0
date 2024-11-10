@@ -176,6 +176,10 @@ public class PlayerController : MonoBehaviour
                 {
                     hit.transform.gameObject.GetComponent<Interactable>().isRaycastedOn = true;
                 }
+                else if (hit.collider.gameObject.tag == "SpObject")
+                {
+                    hit.transform.gameObject.GetComponent<SpInteractable>().isRaycastedOn = true;
+                }
             }
 
            

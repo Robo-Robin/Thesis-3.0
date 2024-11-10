@@ -34,25 +34,33 @@ public class Interactable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isRaycastedOn && Input.GetKeyDown(interactionKey) && !isRevealed)
+        if (isRevealed)
         {
-            StartCoroutine(RevealInteraction());
-        }
-        else if (isRaycastedOn && Input.GetKeyDown(interactionKey) && isRevealed)
-        {
-            revealingtimer = 0f;
-            StartCoroutine(AlreadyRevealedInteraction());
-        }
-
-        if(isRaycastedOn && !isIndicated)
-        {
-            isIndicated = true;
-            indicatorMesh.enabled = true;
-        }
-        else if (!isRaycastedOn && isIndicated)
-        {
-            isIndicated = false;
             indicatorMesh.enabled = false;
+
+            if (isRaycastedOn && Input.GetKeyDown(interactionKey))
+            {
+                revealingtimer = 0f;
+                StartCoroutine(AlreadyRevealedInteraction());
+            }
+        }
+        else
+        {
+            if (isRaycastedOn && Input.GetKeyDown(interactionKey))
+            {
+                StartCoroutine(RevealInteraction());
+            }
+
+            if (isRaycastedOn && !isIndicated)
+            {
+                isIndicated = true;
+                indicatorMesh.enabled = true;
+            }
+            else if (!isRaycastedOn && isIndicated)
+            {
+                isIndicated = false;
+                indicatorMesh.enabled = false;
+            }
         }
 
     }
