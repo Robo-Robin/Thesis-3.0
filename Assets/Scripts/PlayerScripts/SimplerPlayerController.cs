@@ -30,11 +30,10 @@ public class SimplerPlayerController : MonoBehaviour
     private float smoothingSpeed = 3f;
     private float smoothingTime = 20f;
 
-    private float wantedXRotation;
     private float currentXRotation;
-
-    private float wantedYRotation;
     private float currentYRotation;
+    
+    
 
     //public fields so we can assign them/access them
 
@@ -45,6 +44,10 @@ public class SimplerPlayerController : MonoBehaviour
     public float lookUpwardsLimit = -35f;
     public float lookDownwardsLimit = 75f;
     public float lookUpSnapBounds = 15f;
+
+    [HideInInspector] //need to access these but dont want them editable by me
+    public float wantedXRotation;
+    public float wantedYRotation;
 
     //player controlls (public)
     public bool playerIsLocked; //formerly was 'canMove' - generally if you cannot move you shouldnt do other things either
