@@ -74,5 +74,13 @@ public class SpInteractable : MonoBehaviour
         alreadyRevealed.Invoke();
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            isRaycastedOn = false;
+        }
+    }
+
 
 }

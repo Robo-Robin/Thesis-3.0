@@ -29,9 +29,6 @@ public class SimplerPlayerController : MonoBehaviour
 
     private float smoothingSpeed = 3f;
     private float smoothingTime = 20f;
-
-    private float currentXRotation;
-    private float currentYRotation;
     
     
 
@@ -40,12 +37,16 @@ public class SimplerPlayerController : MonoBehaviour
     public Camera playerCamera;
     public CharacterController characterController;
 
+    //these need to be public so dig can see them
+    [HideInInspector] public float currentXRotation;
+    [HideInInspector] public float currentYRotation;
+
     //camera controls (public)
     public float lookUpwardsLimit = -35f;
     public float lookDownwardsLimit = 75f;
     public float lookUpSnapBounds = 15f;
 
-    [HideInInspector] //need to access these but dont want them editable by me
+    [HideInInspector] //need to access these but dont want them editable by me 
     public float wantedXRotation;
     public float wantedYRotation;
 

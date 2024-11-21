@@ -8,7 +8,7 @@ public class SpObjectBehavior : MonoBehaviour
 
     public GameObject MeshContainerPrefab;
 
-    AudioSource myAudioSource;
+    public AudioSource myAudioSource;
 
     AudioClip myAudioClip;
 
