@@ -53,5 +53,10 @@ public class PlayerDigBehavior : MonoBehaviour
             canDig = false;
         }
 
+        if(Input.GetKey(KeyCode.Mouse1))
+        {
+            simplerPlayerController.TempLockPlayer();
+        }
+
     }
 }

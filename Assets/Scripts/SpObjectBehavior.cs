@@ -49,7 +49,7 @@ public class SpObjectBehavior : MonoBehaviour
 
     public void TakeObject()
     {
-        if (myMesh != null)
+        if (myMesh == null)
         {
             MeshContainerPrefab.SetActive(false);
         }
@@ -57,5 +57,16 @@ public class SpObjectBehavior : MonoBehaviour
         {
             myMesh.enabled = false;
         }
+    }
+
+    IEnumerator RevealObjCor()
+    {
+        if (myAudioClip != null)
+        {
+            myAudioSource.PlayOneShot(myAudioClip); //should be a variant of the dig eventually
+        }
+        yield return new WaitForSecondsRealtime(0.6f);
+
+
     }
 }
