@@ -19,11 +19,36 @@ public class ProximityActivate : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
        if(other.tag == "Player")
-        {
+       {
             for (int i = 0; i < transform.childCount; i++)
             {
                 transform.GetChild(i).gameObject.SetActive(true);
+
+                StartCoroutine(LightFadeIn());
             }
+       }
+    }
+
+    IEnumerator LightFadeIn()
+    {
+        Light[] childlights;
+
+        childlights = GetComponentsInChildren<Light>();
+
+        float lightsIntensity = 0f;
+        
+        while (lightsIntensity < 0.6)
+        {
+            lightsIntensity += Time.deltaTime;
+
+            foreach (Light l in childlights)
+            {
+                
+                l.intensity = lightsIntensity;
+                
+            }
+
+            yield return new WaitForSeconds(0.02f);
         }
     }
 }

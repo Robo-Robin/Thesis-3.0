@@ -75,6 +75,12 @@ public class SimplerPlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         // We are grounded, so recalculate move direction based on axes
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
@@ -160,16 +166,31 @@ public class SimplerPlayerController : MonoBehaviour
         playerIsLocked = true;
     }
 
-    public IEnumerator TempLockPlayer()
-    {
-        playerIsLocked = true;
-        yield return new WaitForSecondsRealtime(0.6f);//using a set amount of time for testing. update this with other methods. 
-        playerIsLocked = false;
-    }
-
     public void PlayerUnlock()
     {
         playerIsLocked = false;
     }
+
+    public IEnumerator TempLockPlayer(float timeS)
+    {
+        playerIsLocked = true;
+        yield return new WaitForSecondsRealtime(timeS);
+        playerIsLocked = false;
+    }
+
+    public void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        playerIsLocked = true;
+    }
+    public void RelockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        playerIsLocked = false;
+    }
+
+    
 
 }

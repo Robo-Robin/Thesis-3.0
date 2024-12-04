@@ -10,7 +10,10 @@ public class SpObjectBehavior : MonoBehaviour
 
     public AudioSource myAudioSource;
 
-    AudioClip myAudioClip;
+    public List<AudioClip> myAudioClips;
+
+    public GameObject ButtonsParent;
+    TheChoiceBehavior HumanBeastButtonsParent;
 
     // Start is called before the first frame update
     void Start()
@@ -23,10 +26,7 @@ public class SpObjectBehavior : MonoBehaviour
             else
                 Debug.Log("failed to get mesh");
         }
-
-
-        myAudioSource = GetComponent<AudioSource>();
-
+        HumanBeastButtonsParent = ButtonsParent.GetComponent<TheChoiceBehavior>();
     }
 
     // Update is called once per frame
@@ -37,7 +37,12 @@ public class SpObjectBehavior : MonoBehaviour
 
     public void RevealObject()
     {
-        if(myMesh == null)
+        if (myAudioClips[0] != null)
+        {
+            myAudioSource.PlayOneShot(myAudioClips[0]); //reveal ditty
+        }
+
+        if (myMesh == null)
         {
             MeshContainerPrefab.SetActive(true);
         }
@@ -45,6 +50,9 @@ public class SpObjectBehavior : MonoBehaviour
         {
             myMesh.enabled = true;
         }
+
+
+
     }
 
     public void TakeObject()
@@ -57,16 +65,33 @@ public class SpObjectBehavior : MonoBehaviour
         {
             myMesh.enabled = false;
         }
+
     }
 
-    IEnumerator RevealObjCor()
+    public void PlayAudioStory()
     {
-        if (myAudioClip != null)
-        {
-            myAudioSource.PlayOneShot(myAudioClip); //should be a variant of the dig eventually
-        }
-        yield return new WaitForSecondsRealtime(0.6f);
+        StartCoroutine(AudioWaiter());
+        
+    }
 
+    IEnumerator AudioWaiter()
+    {
+        yield return new WaitForSeconds(3f);
+        if (myAudioClips[1] != null)
+        {
+            myAudioSource.PlayOneShot(myAudioClips[1]);
+            StartCoroutine(HumanBeast(myAudioClips[1].length));
+        }
+    }
+
+    IEnumerator HumanBeast(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        if (HumanBeastButtonsParent != null)
+        {
+            HumanBeastButtonsParent.RevealChoiceUI();
+        }
+        else Debug.Log("Unable to get the buttons");
 
     }
 }

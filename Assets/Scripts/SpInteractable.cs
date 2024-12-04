@@ -14,7 +14,7 @@ public class SpInteractable : MonoBehaviour
     public UnityEvent alreadyRevealed;
 
     float revealingtimer;
-    float revealingCooldown = 6f;
+    float revealingCooldown = 2f;
 
     public GameObject indicatorObject;
     MeshRenderer indicatorMesh;

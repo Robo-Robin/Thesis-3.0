@@ -17,12 +17,21 @@ public class PlayerDigBehavior : MonoBehaviour
     float digCooldownTimer;
     bool isDigging;
 
+    bool rayAtObject = false;
+
+    public GameObject digObject;
+
+    AudioSource playerAudioSource;
+    public List<AudioClip> digAudClips;
+
     // Start is called before the first frame update
     void Start()
     {
         simplerPlayerController = gameObject.GetComponent<SimplerPlayerController>();
         playerCamera = Camera.main;
         _XRotation = simplerPlayerController.currentXRotation;
+
+        playerAudioSource = transform.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -41,10 +50,18 @@ public class PlayerDigBehavior : MonoBehaviour
                 if (hit.collider.gameObject.tag == "Object")
                 {
                     hit.transform.gameObject.GetComponent<Interactable>().isRaycastedOn = true;
+
+                    rayAtObject = true;
                 }
                 else if (hit.collider.gameObject.tag == "SpObject")
                 {
                     hit.transform.gameObject.GetComponent<SpInteractable>().isRaycastedOn = true;
+                    rayAtObject = true;
+                }
+                else if (hit.collider.gameObject.tag == "Undiggable")
+                {
+                    canDig = false;
+                    //add a lil error sound if you click and cant dig
                 }
             }
         }
@@ -53,10 +70,37 @@ public class PlayerDigBehavior : MonoBehaviour
             canDig = false;
         }
 
-        if(Input.GetKey(KeyCode.Mouse1))
+        if(Input.GetKey(KeyCode.Mouse1) && canDig)
         {
-            simplerPlayerController.TempLockPlayer();
+            //currently only play the 1 clip for digging - we'll have a couple eventually i think
+            if (digAudClips != null)
+            {
+                playerAudioSource.PlayOneShot(digAudClips[0]);
+            }
+
+            if (rayAtObject)
+            {
+                simplerPlayerController.UnlockCursor();
+                StartCoroutine(CreateDigMesh(hit.transform.position.y - 0.4f));
+            }
+            else
+            {
+                StartCoroutine(simplerPlayerController.TempLockPlayer(4f));
+                StartCoroutine(CreateDigMesh(0f));
+            }
+                
         }
 
+    }
+
+    IEnumerator CreateDigMesh(float height)
+    {
+        yield return new WaitForSeconds(3f);
+        Instantiate(digObject, hit.point + new Vector3(0f, - height, 0f), Quaternion.Euler(-90, 0, 0));
+        if (!rayAtObject)
+        {
+            simplerPlayerController.RelockCursor();
+        }
+        playerAudioSource.Stop();
     }
 }
