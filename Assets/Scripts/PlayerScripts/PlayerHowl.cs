@@ -6,7 +6,7 @@ public class PlayerHowl : MonoBehaviour
 {
     private SimplerPlayerController myPlayerController;
 
-    private bool isHowling;
+    public bool isHowling;
     private bool canHowl;
 
     [Range(3f, 7f)] [SerializeField]
@@ -15,6 +15,10 @@ public class PlayerHowl : MonoBehaviour
 
     AudioSource playerAudioSource;
     public List<AudioClip> howlingClips;
+
+
+    public CursorAttractor myPlayerSniff;
+    public PlayerDigBehavior myPlayerDig;
 
     // Start is called before the first frame update
     void Start()
@@ -26,11 +30,15 @@ public class PlayerHowl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (myPlayerController.playerIsLocked == true)
+        if (myPlayerController.playerIsLocked)
         {
             canHowl = false;
         }
-        else if (myPlayerController.playerIsLocked == false)
+        else if (myPlayerSniff.isSniffing || myPlayerDig.isDigging)
+        {
+            canHowl = false;
+        }
+        else
         {
             canHowl = true;
         }

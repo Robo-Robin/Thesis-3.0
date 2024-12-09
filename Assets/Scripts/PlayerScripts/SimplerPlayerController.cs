@@ -8,7 +8,7 @@ public class SimplerPlayerController : MonoBehaviour
     //player controls (private)
     private float walkingSpeed = 3f;
     private float runningSpeed = 5f;
-    private float gravity = 20.0f;
+    private float gravity = 200.0f;
 
     private float movementAcceleration = 375.0f;
     private float curSpeedX = 0f;
@@ -75,11 +75,7 @@ public class SimplerPlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
+        //took out quit function because its now bound to a button. 
 
         // We are grounded, so recalculate move direction based on axes
         Vector3 forward = transform.TransformDirection(Vector3.forward);

@@ -15,7 +15,7 @@ public class PlayerDigBehavior : MonoBehaviour
     bool canDig;
     float digCooldown = 6;
     float digCooldownTimer;
-    bool isDigging;
+    public bool isDigging;
 
     bool rayAtObject = false;
 
@@ -23,6 +23,9 @@ public class PlayerDigBehavior : MonoBehaviour
 
     AudioSource playerAudioSource;
     public List<AudioClip> digAudClips;
+
+    public PlayerHowl myPlayerHowl;
+    public CursorAttractor myPlayerSniff;
 
     // Start is called before the first frame update
     void Start()
@@ -37,11 +40,25 @@ public class PlayerDigBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        
+
         _XRotation = simplerPlayerController.currentXRotation;
 
         if (_XRotation >= digMinimumAngle && isDigging == false && !simplerPlayerController.playerIsLocked)
         {
-            canDig = true;
+            if (simplerPlayerController.playerIsLocked)
+            {
+                canDig = false;
+            }
+            else if (myPlayerSniff.isSniffing || myPlayerHowl.isHowling)
+            {
+                canDig = false;
+            }
+            else
+            {
+                canDig = true;
+            }
 
             if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 100f))
             {
@@ -72,6 +89,9 @@ public class PlayerDigBehavior : MonoBehaviour
 
         if(Input.GetKey(KeyCode.Mouse1) && canDig)
         {
+
+            isDigging = true;
+
             //currently only play the 1 clip for digging - we'll have a couple eventually i think
             if (digAudClips != null)
             {
@@ -102,5 +122,6 @@ public class PlayerDigBehavior : MonoBehaviour
             simplerPlayerController.RelockCursor();
         }
         playerAudioSource.Stop();
+        isDigging = false;
     }
 }

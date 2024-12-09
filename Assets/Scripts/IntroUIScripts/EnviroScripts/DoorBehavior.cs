@@ -48,7 +48,7 @@ public class DoorBehavior : MonoBehaviour
             timeSlerp += Time.deltaTime / doorOpenTime;
             yield return new WaitForEndOfFrame();
 
-            if (newCurrentPosition.x < 17 && newCurrentPosition.x > 16.98) //this is a catch to make sure that the slerp works
+            if (newCurrentPosition.x < 20 && newCurrentPosition.x > 19.98) //this is a catch to make sure that the slerp works
             {
                 doorMoving = false;
             }

@@ -25,7 +25,7 @@ public class TheChoiceBehavior : MonoBehaviour
             transform.GetChild(i).gameObject.SetActive(true);
         }
 
-        myPlayerController.UnlockCursor();
+        myPlayerController.PlayerLock();
     }
 
     public void ChoiceMade()
@@ -34,5 +34,6 @@ public class TheChoiceBehavior : MonoBehaviour
         {
             transform.GetChild(i).gameObject.SetActive(false);
         }
+        myPlayerController.PlayerUnlock();
     }
 }

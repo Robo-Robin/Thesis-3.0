@@ -27,6 +27,12 @@ public class CursorAttractor : MonoBehaviour
     public GameObject SniffIndicator;
 
     bool CanSniff;
+    public bool isSniffing;
+
+    public PlayerHowl myPlayerHowl;
+    public PlayerDigBehavior myPlayerDig;
+
+
 
 
     void Start()
@@ -38,6 +44,21 @@ public class CursorAttractor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (myPlayerController.playerIsLocked)
+        {
+            CanSniff = false;
+        }
+        else if(myPlayerHowl.isHowling || myPlayerDig.isDigging)
+        {
+            CanSniff = false;
+        }
+        else
+        {
+            CanSniff = true;
+        }
+
+
         if (AllObjInRadius.Count > 0)
         {
             attractionActive = true;
@@ -47,7 +68,6 @@ public class CursorAttractor : MonoBehaviour
             attractionActive = false;
         }
 
-        CanSniff = !myPlayerController.playerIsLocked;
 
         if (CanSniff)
         {
@@ -55,21 +75,29 @@ public class CursorAttractor : MonoBehaviour
             {
                 int rClip = Random.Range(0, sniffClips.Count);
                 sniffAudioSource.clip = sniffClips[rClip];
-                sniffAudioSource.Play();
 
+                isSniffing = true;
                 StartCoroutine(ActivateSniffUI());
+
+                
             }
 
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
                 StopCoroutine(ActivateSniffUI());
-                sniffAudioSource.Stop();
+                isSniffing = false;
                 DeactivateSniffUI();
             }
 
 
             if (attractionActive && Input.GetKey(KeyCode.Mouse0)) //eventually put an OR statement here where the beast is > some percentage
             {
+                //added line to fix sniff while button active = freeze
+                if (myPlayerController.playerIsLocked)
+                {
+                    DeactivateSniffUI();
+                }
+
                 Vector3 playerForward = myPlayerController.transform.TransformDirection(Vector3.forward);
                 Vector3 playerLeft = myPlayerController.transform.TransformDirection(Vector3.left);
 
@@ -90,6 +118,7 @@ public class CursorAttractor : MonoBehaviour
 
     IEnumerator ActivateSniffUI()
     {
+        sniffAudioSource.Play();
         Dictionary<Transform, GameObject> itemPairUI = new Dictionary<Transform, GameObject>();
 
         if (AllObjInRadius.Count > 0)
@@ -114,6 +143,13 @@ public class CursorAttractor : MonoBehaviour
 
             while (Input.GetKey(KeyCode.Mouse0) && AllObjInRadius.Count > 0)
             {
+                //added line to fix sniff while button active = freeze
+                if (myPlayerController.playerIsLocked)
+                {
+                    break;
+                }
+
+
                 if (AllObjInRadius.Count < 0)
                     break;
 
@@ -148,6 +184,8 @@ public class CursorAttractor : MonoBehaviour
     
     public void DeactivateSniffUI()
     {
+        sniffAudioSource.Stop();
+
         foreach (Transform child in SniffUIParent.transform)
         {
             Destroy(child.gameObject);
