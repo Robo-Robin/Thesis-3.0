@@ -21,15 +21,26 @@ public class EscapeUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !isPaused)
         {
-            myPlayerController.PlayerLock();
+            //added these lines to return the player to the same state pre and post pause
+
             StartPauseMenu();
             isPaused = true;
+
+
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && isPaused)
         {
+
+            if (!myPlayerController.playerIsLocked)
+            {
+                myPlayerController.PlayerUnlock();
+            }
             EndPauseMenu();
             isPaused = false;
+
         }
+
+
     }
 
     public void StartPauseMenu()
@@ -51,10 +62,15 @@ public class EscapeUI : MonoBehaviour
         }
         isPaused = false;
         Time.timeScale = 1;
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        
+        if (!myPlayerController.playerIsLocked)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+            
 
-        myPlayerController.PlayerUnlock();
+        
     }
 
     public void OnQuitButton()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "StatsSO", menuName = "ScriptableObjects/StatsSO", order = 1)]
+[CreateAssetMenu(fileName = "StatsSO", menuName = "ScriptableObjects/StatsSO", order = 2)]
 public class StatsSO : ScriptableObject
 {
     public float percentageHuman = 50f;

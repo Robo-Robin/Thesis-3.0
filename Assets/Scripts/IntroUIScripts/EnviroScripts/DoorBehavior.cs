@@ -33,7 +33,7 @@ public class DoorBehavior : MonoBehaviour
     IEnumerator DoorMove()
     {
         doorASource.Play();
-        float doorTarget = 17f;
+        float doorTarget = 20f;
         float doorOriginal = transform.position.x;
         float timeSlerp = 0f;
         float distanceTraveled = 0f;

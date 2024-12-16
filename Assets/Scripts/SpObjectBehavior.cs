@@ -88,7 +88,8 @@ public class SpObjectBehavior : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         if (HumanBeastButtonsParent != null)
-        {
+        {   
+            
             HumanBeastButtonsParent.RevealChoiceUI();
         }
         else Debug.Log("Unable to get the buttons");
