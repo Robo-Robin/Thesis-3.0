@@ -7,7 +7,7 @@ public class PlayerDigBehavior : MonoBehaviour
     private float _XRotation;
 
     private SimplerPlayerController simplerPlayerController;
-    private Camera playerCamera;
+    public Camera playerCamera;
 
     float digMinimumAngle = 41.6f;
     RaycastHit hit;
@@ -31,7 +31,7 @@ public class PlayerDigBehavior : MonoBehaviour
     void Start()
     {
         simplerPlayerController = gameObject.GetComponent<SimplerPlayerController>();
-        playerCamera = Camera.main;
+  /*      playerCamera = Camera.main;*/
         _XRotation = simplerPlayerController.currentXRotation;
 
         playerAudioSource = transform.GetComponent<AudioSource>();

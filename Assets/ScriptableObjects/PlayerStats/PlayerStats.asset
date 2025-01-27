@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
   pathProgress: 0
-  pathPercentageDisplay: 
+  pathPercentageDisplay: 0
   itemsFound: 0
-  pathChosen: 
+  pathChosen: Drifting
   timeInInterrimMinutes: 0
   timeInbetween: 0
-  InterrimLimitInMinutes: 1
+  InterrimLimitInMinutes: 10
   artefactNamesFound: []
   artefactsFound: []

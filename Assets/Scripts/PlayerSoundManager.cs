@@ -10,7 +10,7 @@ public class PlayerSoundManager : MonoBehaviour
     // Start is called before the first frame update
     [HideInInspector]
     public AudioSource movementAudioSource;
-    public PlayerController myPlayerController;
+    public SimplerPlayerController myPlayerController;
 
     void Start()
     {
@@ -22,8 +22,10 @@ public class PlayerSoundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+     
+        //WE SHOULD BE HANDLING THIS VIA COROUTINE - 1/21/2025
         
-        if (myPlayerController != null)
+        /*if (myPlayerController != null)
         {
             
             if((myPlayerController.curSpeedX != 0 || myPlayerController.curSpeedY != 0) && myPlayerController.isRunning == false)
@@ -46,6 +48,6 @@ public class PlayerSoundManager : MonoBehaviour
             {
                 movementAudioSource.Play();
             }
-        }
+        }*/
     }
 }

@@ -25,6 +25,8 @@ public class CursorAttractor : MonoBehaviour
 
     public GameObject SniffUIParent;
     public GameObject SniffIndicator;
+    public GameObject EmptySniffIndicator;
+    
 
     bool CanSniff;
     public bool isSniffing;
@@ -62,10 +64,12 @@ public class CursorAttractor : MonoBehaviour
         if (AllObjInRadius.Count > 0)
         {
             attractionActive = true;
+
         }
         else
         {
             attractionActive = false;
+
         }
 
 
@@ -160,7 +164,7 @@ public class CursorAttractor : MonoBehaviour
 
                     float correctangle = Vector2.SignedAngle(playerForward, vecToItem);
 
-                    float distanceStrength = Mathf.Clamp(1f - (vecToItem.magnitude / mySmellCollider.radius) - 0.15f, 0f, 1f);
+                    float distanceStrength = Mathf.Clamp(0.8f - (vecToItem.magnitude / mySmellCollider.radius) - 0.05f, 0.05f, 0.8f);
 
 
                     if (itemPairUI.ContainsKey(AllObjInRadius[i].transform) && SniffUIParent.transform.childCount > 0)
@@ -179,6 +183,36 @@ public class CursorAttractor : MonoBehaviour
             }
 
         }
+        else
+        {
+            bool emptySniffActive = true;
+            while (Input.GetKey(KeyCode.Mouse0))
+            {
+                if (myPlayerController.playerIsLocked)
+                {
+                    break;
+                }
+
+                if (emptySniffActive == true)
+                {
+                    Debug.Log("Activate the emptysniff");
+                    GameObject newEmptySniff = Instantiate(EmptySniffIndicator, SniffUIParent.transform);
+                    itemPairUI.Add(SniffUIParent.transform, newEmptySniff);
+                    emptySniffActive = false;
+                }
+
+                if (itemPairUI.ContainsKey(SniffUIParent.transform))
+                {
+                    itemPairUI[SniffUIParent.transform].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.05f);
+                    itemPairUI[SniffUIParent.transform].transform.eulerAngles = new Vector3(-180f, -180f, 0f);
+                }
+
+                yield return new WaitForEndOfFrame();
+            }
+            emptySniffActive = false;
+        }
+
+
 
     }
     
@@ -190,6 +224,7 @@ public class CursorAttractor : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+
     }
 
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SpObjectBehavior : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class SpObjectBehavior : MonoBehaviour
 
     public GameObject ButtonsParent;
     TheChoiceBehavior HumanBeastButtonsParent;
+
+    //we might need to take this next part out if we wanna wholesale reuse this code, but most likely we'll just copypaste
+    public UnityEvent playTheLastSegment;
 
     // Start is called before the first frame update
     void Start()
@@ -68,6 +72,20 @@ public class SpObjectBehavior : MonoBehaviour
 
     }
 
+    public void EatObject()
+    {
+
+        StartCoroutine(DestroyObjectWithParticles());
+
+    }
+
+    IEnumerator DestroyObjectWithParticles()
+    {
+        yield return new WaitForSeconds(0.5f);
+        gameObject.SetActive(false);
+    }
+
+
     public void PlayAudioStory()
     {
         StartCoroutine(AudioWaiter());
@@ -80,7 +98,8 @@ public class SpObjectBehavior : MonoBehaviour
         if (myAudioClips[1] != null)
         {
             myAudioSource.PlayOneShot(myAudioClips[1]);
-            StartCoroutine(HumanBeast(myAudioClips[1].length));
+
+            /*StartCoroutine(HumanBeast(myAudioClips[1].length));*/
         }
     }
 

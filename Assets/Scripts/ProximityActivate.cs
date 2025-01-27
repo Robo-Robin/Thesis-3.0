@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ProximityActivate : MonoBehaviour
 {
+    public UnityEvent PlayCaveAudioPartTwo;
+
+    private bool ProxTrig1 = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,12 +23,14 @@ public class ProximityActivate : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       if(other.tag == "Player")
+       if(other.tag == "Player" && ProxTrig1 == false)
        {
+            ProxTrig1 = true;
+            PlayCaveAudioPartTwo.Invoke();
             for (int i = 0; i < transform.childCount; i++)
             {
                 transform.GetChild(i).gameObject.SetActive(true);
-
+                
                 StartCoroutine(LightFadeIn());
             }
        }
@@ -50,5 +57,8 @@ public class ProximityActivate : MonoBehaviour
 
             yield return new WaitForSeconds(0.02f);
         }
+
+
+        
     }
 }

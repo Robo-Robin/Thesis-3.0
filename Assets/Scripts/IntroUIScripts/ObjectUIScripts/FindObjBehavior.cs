@@ -14,6 +14,8 @@ public class FindObjBehavior : MonoBehaviour
     //1 is the take audio (shuffling into pockets)
     //2 is the eat audio (crompchy)
 
+    public ParticleSystem turnToDustSystem;
+
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +45,7 @@ public class FindObjBehavior : MonoBehaviour
     public void EatInitObject()
     {
         UIAudio.PlayOneShot(UIClips[0]);
+        turnToDustSystem.Play();
         StartCoroutine(UIAudioPlay(UIClips[2]));
     }
 
