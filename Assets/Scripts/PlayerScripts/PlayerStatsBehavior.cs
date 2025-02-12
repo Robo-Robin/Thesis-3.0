@@ -212,5 +212,6 @@ public class PlayerStatsBehavior : MonoBehaviour
         myPlayerStats.timeInbetween = 0;
         myPlayerStats.timeInInterrimMinutes = 0;
         myPlayerStats.ChangePathMessage();
+        myPlayerStats.artefactNamesFound.Clear();
     }
 }

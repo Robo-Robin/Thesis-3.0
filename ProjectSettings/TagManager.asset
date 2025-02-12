@@ -11,6 +11,8 @@ TagManager:
   - Attractor
   - Undiggable
   - FlavorAudio
+  - Artefact
+  - UISoundManager
   layers:
   - Default
   - TransparentFX

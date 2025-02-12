@@ -230,7 +230,7 @@ public class CursorAttractor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if((other.tag == "SpObject" || other.tag == "Object") && !AllObjInRadius.Contains(other.gameObject))
+        if((other.tag == "SpObject" || other.tag == "Object" || other.tag == "Artefact") && !AllObjInRadius.Contains(other.gameObject))
         {
             AllObjInRadius.Add(other.gameObject);
         }
@@ -239,7 +239,7 @@ public class CursorAttractor : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "SpObject" || other.tag == "Object")
+        if (other.tag == "SpObject" || other.tag == "Object" || other.tag == "Artefact")
         {
             AllObjInRadius.Remove(other.gameObject);
         }

@@ -17,7 +17,7 @@ MonoBehaviour:
   itemsFound: 0
   pathChosen: Drifting
   timeInInterrimMinutes: 0
-  timeInbetween: 0
+  timeInbetween: 8
   InterrimLimitInMinutes: 10
   artefactNamesFound: []
   artefactsFound: []

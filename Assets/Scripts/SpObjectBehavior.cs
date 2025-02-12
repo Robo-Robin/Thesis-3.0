@@ -30,6 +30,7 @@ public class SpObjectBehavior : MonoBehaviour
             else
                 Debug.Log("failed to get mesh");
         }
+
         HumanBeastButtonsParent = ButtonsParent.GetComponent<TheChoiceBehavior>();
     }
 

@@ -75,6 +75,12 @@ public class PlayerDigBehavior : MonoBehaviour
                     hit.transform.gameObject.GetComponent<SpInteractable>().isRaycastedOn = true;
                     rayAtObject = true;
                 }
+                else if(hit.collider.gameObject.tag == "Artefact")
+                {
+                    hit.transform.gameObject.GetComponent<ArtefactInteractionBehavior>().isRaycastedOn = true;
+
+                    rayAtObject = true;
+                }
                 else if (hit.collider.gameObject.tag == "Undiggable")
                 {
                     canDig = false;
@@ -102,6 +108,11 @@ public class PlayerDigBehavior : MonoBehaviour
             {
                 simplerPlayerController.UnlockCursor();
                 StartCoroutine(CreateDigMesh(hit.transform.position.y - 0.4f));
+
+                if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 100f) && hit.collider.gameObject.tag == "Artefact")
+                {
+                    hit.transform.gameObject.GetComponent<ArtefactInteractionBehavior>().interactAction.Invoke();
+                }
             }
             else
             {

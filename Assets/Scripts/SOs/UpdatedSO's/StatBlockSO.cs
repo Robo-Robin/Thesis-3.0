@@ -65,4 +65,11 @@ public class StatBlockSO : ScriptableObject
 
 
     }
+
+    //eventually this needs to add the scriptable object for an artefact bc 
+    //otherwise you cant access the stories again. 
+    public void AddArtefactToLists(string ArtefactName)
+    {
+        artefactNamesFound.Add(ArtefactName);
+    }
 }
