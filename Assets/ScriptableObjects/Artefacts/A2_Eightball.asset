@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f75fd21a5ec938749a13154ffa88460f, type: 3}
-  m_Name: A1_Femur
+  m_Name: A2_Eightball
   m_EditorClassIdentifier: 
-  artefactID: 1
-  artefactDescription: The femur bone of a long dead person. It's been stripped and
-    bleached by sand and sun, then buried.
-  humanSplit: 50
-  animalSplit: 50
-  takeButtonText: inspect
-  eatButtonText: chew
+  artefactID: 2
+  artefactDescription: An orb made of plastic, with a viewing window at the bottom
+    for a gem of answers that rattles around inside of it.
+  humanSplit: 85
+  animalSplit: 15
+  takeButtonText: Shake
+  eatButtonText: Crack
   a_Type: 1
-  humanButtonText: Acknowledge
-  animalButtonText: Dream of
+  humanButtonText: Intuit
+  animalButtonText: Evolve
   artefactAudioStory: {fileID: 0}
-  artefactTextStory: {fileID: 4900000, guid: 4b81d91db122dec45b983762cd761f9e, type: 3}
+  artefactTextStory: {fileID: 4900000, guid: 40ef426c3e7575242bfe4c208e2f2d12, type: 3}
   artefactHTML_path: 
   artefactImageStory: {fileID: 0}

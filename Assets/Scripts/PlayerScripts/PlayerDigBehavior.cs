@@ -107,7 +107,7 @@ public class PlayerDigBehavior : MonoBehaviour
             if (rayAtObject)
             {
                 simplerPlayerController.UnlockCursor();
-                StartCoroutine(CreateDigMesh(hit.transform.position.y - 0.4f));
+                StartCoroutine(CreateDigMesh(hit.transform.position.y - 0.9f));
 
                 if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 100f) && hit.collider.gameObject.tag == "Artefact")
                 {

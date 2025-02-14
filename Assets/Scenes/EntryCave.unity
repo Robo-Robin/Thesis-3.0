@@ -7288,7 +7288,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Wish
+  m_text: Dream
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b28ee06344bbd45419efbc44347b161a, type: 2}
   m_sharedMaterial: {fileID: 6741130919379412633, guid: b28ee06344bbd45419efbc44347b161a,
@@ -14384,7 +14384,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Dream
+  m_text: Wish
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b28ee06344bbd45419efbc44347b161a, type: 2}
   m_sharedMaterial: {fileID: 6741130919379412633, guid: b28ee06344bbd45419efbc44347b161a,

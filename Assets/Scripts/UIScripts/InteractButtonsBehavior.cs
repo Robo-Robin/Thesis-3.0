@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class InteractButtonsBehavior : MonoBehaviour
 {
@@ -12,12 +13,22 @@ public class InteractButtonsBehavior : MonoBehaviour
     //1 is the take audio (shuffling into pockets)
     //2 is the eat audio (crompchy)
 
+    public GameObject ChoiceButtonsPrefab;
+    private GameObject choiceButtonsParent;
+    private GameObject myCanvas;
 
+    [HideInInspector]
+    public ArtefactSO triggeringArtefact;
+
+    public GameObject textStoryContainer;
+    private GameObject textStoryContainerObject;
 
     // Start is called before the first frame update
     void Start()
     {
         UIAudio = GameObject.Find("UISoundManager").GetComponent<AudioSource>();
+
+        myCanvas = FindFirstObjectByType<Canvas>().gameObject;
     }
 
     // Update is called once per frame
@@ -41,6 +52,21 @@ public class InteractButtonsBehavior : MonoBehaviour
 
         SimplerPlayerController playerController = FindObjectOfType<SimplerPlayerController>();
         playerController.RelockCursor();
+
+        if (triggeringArtefact.a_Type == ArtefactSO.StoryType.Audio)
+        {
+
+        }
+        else if (triggeringArtefact.a_Type == ArtefactSO.StoryType.Text)
+        {
+            choiceButtonsParent = Instantiate(ChoiceButtonsPrefab, myCanvas.transform);
+            choiceButtonsParent.GetComponent<ChoiceButtonsBehavior>().UnlockCursorforStory();
+
+            textStoryContainerObject = Instantiate(textStoryContainer, myCanvas.transform);
+
+            textStoryContainerObject.GetComponentInChildren<TMP_Text>().SetText(triggeringArtefact.artefactTextStory.text);
+            
+        }
     }
     public void EatObject()
     {
@@ -49,6 +75,14 @@ public class InteractButtonsBehavior : MonoBehaviour
 
         SimplerPlayerController playerController = FindObjectOfType<SimplerPlayerController>();
         playerController.RelockCursor();
+
+    }
+
+    public void EatChoice()
+    {
+        choiceButtonsParent = Instantiate(ChoiceButtonsPrefab, myCanvas.transform);
+
+
     }
 
     IEnumerator UIAudioPlay(AudioClip clip)

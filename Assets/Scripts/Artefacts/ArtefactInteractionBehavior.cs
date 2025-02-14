@@ -10,6 +10,7 @@ public class ArtefactInteractionBehavior : MonoBehaviour
     MeshRenderer myMesh;
 
     public GameObject ArtefactMeshContainerPrefab;
+    private GameObject ArtefactMesh;
 
     private GameObject myCanvas;
     public GameObject InteractUIParentPrefab;
@@ -96,18 +97,15 @@ public class ArtefactInteractionBehavior : MonoBehaviour
 
     public void DigUp()
     {
-        moundMesh.SetActive(false);
-        RevealObject();
+        moundMesh.SetActive(false); //make this a coroutine with a timer
+        RevealObject(); // same with this, possibly just make them the same coroutine. 
+        indicatorMesh.enabled = false;
         diggable = false;
-        interactAction.Invoke();
     }
 
     public void RevealObject()
     {
-        if (myMesh != null)
-        {
-            ArtefactMeshContainerPrefab.SetActive(true);
-        }
+        ArtefactMesh = Instantiate(ArtefactMeshContainerPrefab, Vector3.zero + gameObject.transform.position, Quaternion.Euler(45f, 45f, 0f), gameObject.transform);
     }
 
     public void MakeInteractionButtons()
@@ -117,10 +115,12 @@ public class ArtefactInteractionBehavior : MonoBehaviour
 
         interactButtonsParent = Instantiate(InteractUIParentPrefab, myCanvas.transform);
 
-        GameObject description = GameObject.Find("ArtefactText");
-        Debug.Log("GotDescription");
+        interactButtonsParent.GetComponent<InteractButtonsBehavior>().triggeringArtefact = containedArtefact;
 
-        description.GetComponent<TMP_Text>().SetText(containedArtefact.artefactDescription); //replace all these strings with artefact specifics
+        GameObject description = GameObject.Find("ArtefactText");
+
+        description.GetComponent<TMP_Text>().fontSize = 30;
+        description.GetComponent<TMP_Text>().SetText(containedArtefact.artefactDescription);
 
         List<Button> interactionButtons = new List<Button>();
         interactButtonsParent.GetComponentsInChildren(interactionButtons);
