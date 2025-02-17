@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c020ccc8afffc8544a20d83487603b95, type: 3}
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
-  pathProgress: 5
+  pathProgress: 0
   pathPercentageDisplay: 0
   itemsFound: 0
   pathChosen: Drifting
-  timeInInterrimMinutes: 1
-  timeInbetween: 84
+  timeInInterrimMinutes: 0
+  timeInbetween: 1
   InterrimLimitInMinutes: 10
-  artefactNamesFound: []
+  artefactNamesTaken:
+  - Magic Eightball
+  artefactNamesEaten: []
   artefactsFound: []

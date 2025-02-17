@@ -53,6 +53,8 @@ public class InteractButtonsBehavior : MonoBehaviour
         SimplerPlayerController playerController = FindObjectOfType<SimplerPlayerController>();
         playerController.RelockCursor();
 
+        playerController.GetComponent<PlayerStatsBehavior>().AddArtefactToTakenList(triggeringArtefact.artefactName);
+
         if (triggeringArtefact.a_Type == ArtefactSO.StoryType.Audio)
         {
 
@@ -70,10 +72,12 @@ public class InteractButtonsBehavior : MonoBehaviour
     }
     public void EatObject()
     {
+        SimplerPlayerController playerController = FindObjectOfType<SimplerPlayerController>();
+        playerController.GetComponent<PlayerStatsBehavior>().AddArtefactToEatenList(triggeringArtefact.artefactName);
+
         UIAudio.PlayOneShot(UIClips[0]);
         StartCoroutine(UIAudioPlay(UIClips[2]));
 
-        SimplerPlayerController playerController = FindObjectOfType<SimplerPlayerController>();
         playerController.RelockCursor();
 
     }

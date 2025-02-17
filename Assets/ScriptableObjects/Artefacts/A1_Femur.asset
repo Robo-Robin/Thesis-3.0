@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: A1_Femur
   m_EditorClassIdentifier: 
   artefactID: 1
+  artefactName: Femur
   artefactDescription: The femur bone of a long dead person. It's been stripped and
     bleached by sand and sun, then buried.
   humanSplit: 50

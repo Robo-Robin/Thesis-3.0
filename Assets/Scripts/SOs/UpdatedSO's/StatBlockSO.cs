@@ -21,7 +21,8 @@ public class StatBlockSO : ScriptableObject
 
     public int InterrimLimitInMinutes;
 
-    public List<string> artefactNamesFound = new List<string>();
+    public List<string> artefactNamesTaken = new List<string>();
+    public List<string> artefactNamesEaten = new List<string>();
     public List<GameObject> artefactsFound = new List<GameObject>();
 
     public void ProgressPath(int changeby)
@@ -68,8 +69,15 @@ public class StatBlockSO : ScriptableObject
 
     //eventually this needs to add the scriptable object for an artefact bc 
     //otherwise you cant access the stories again. 
-    public void AddArtefactToLists(string ArtefactName)
+    //02/16/2025 ^ this is still true
+
+
+    /*public void AddArtefactToTakenList(string ArtefactName)
     {
-        artefactNamesFound.Add(ArtefactName);
+        artefactNamesTaken.Add(ArtefactName);
     }
+    public void AddArtefactToEatenList(string ArtefactName)
+    {
+        artefactNamesEaten.Add(ArtefactName);
+    }*/
 }

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: A0_Tape
   m_EditorClassIdentifier: 
   artefactID: 0
+  artefactName: Cassette Tape
   artefactDescription: An old cassette tape. It tells you something long and relatively
     unintelligible, yet comforting.
   humanSplit: 50

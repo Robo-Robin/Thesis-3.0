@@ -6,6 +6,7 @@ using UnityEngine;
 public class ArtefactSO : ScriptableObject
 {
     public int artefactID;
+    public string artefactName;
 
     [TextArea]
     public string artefactDescription;

@@ -206,12 +206,22 @@ public class PlayerStatsBehavior : MonoBehaviour
         ChangeExperience(myPlayerStats.pathProgress, value);
     }
 
+    public void AddArtefactToTakenList(string ArtefactName)
+    {
+        myPlayerStats.artefactNamesTaken.Add(ArtefactName);
+    }
+    public void AddArtefactToEatenList(string ArtefactName)
+    {
+        myPlayerStats.artefactNamesEaten.Add(ArtefactName);
+    }
+
     public void ResetStats()
     {
         myPlayerStats.pathProgress = 0;
         myPlayerStats.timeInbetween = 0;
         myPlayerStats.timeInInterrimMinutes = 0;
         myPlayerStats.ChangePathMessage();
-        myPlayerStats.artefactNamesFound.Clear();
+        myPlayerStats.artefactNamesTaken.Clear();
+        myPlayerStats.artefactNamesEaten.Clear();
     }
 }
