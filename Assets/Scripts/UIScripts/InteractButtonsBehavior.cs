@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class InteractButtonsBehavior : MonoBehaviour
@@ -64,10 +65,28 @@ public class InteractButtonsBehavior : MonoBehaviour
             choiceButtonsParent = Instantiate(ChoiceButtonsPrefab, myCanvas.transform);
             choiceButtonsParent.GetComponent<ChoiceButtonsBehavior>().UnlockCursorforStory();
 
+            List<Button> choiceButtons = new List<Button>();
+            choiceButtonsParent.GetComponentsInChildren(choiceButtons);
+            choiceButtons[0].GetComponentInChildren<TMP_Text>().SetText(triggeringArtefact.humanButtonText);
+            choiceButtons[1].GetComponentInChildren<TMP_Text>().SetText(triggeringArtefact.animalButtonText);
+
             textStoryContainerObject = Instantiate(textStoryContainer, myCanvas.transform);
 
             textStoryContainerObject.GetComponentInChildren<TMP_Text>().SetText(triggeringArtefact.artefactTextStory.text);
             
+        }
+        else if (triggeringArtefact.a_Type == ArtefactSO.StoryType.HTML)
+        {
+            choiceButtonsParent = Instantiate(ChoiceButtonsPrefab, myCanvas.transform);
+            choiceButtonsParent.GetComponent<ChoiceButtonsBehavior>().UnlockCursorforStory();
+
+            List<Button> choiceButtons = new List<Button>();
+            choiceButtonsParent.GetComponentsInChildren(choiceButtons);
+            choiceButtons[0].GetComponentInChildren<TMP_Text>().SetText(triggeringArtefact.humanButtonText);
+            choiceButtons[1].GetComponentInChildren<TMP_Text>().SetText(triggeringArtefact.animalButtonText);
+            Debug.Log("this has gone through to this point");
+            Application.OpenURL(Application.dataPath + "/" + triggeringArtefact.artefactHTML_path);
+            Debug.Log(Application.dataPath + "/" + triggeringArtefact.artefactHTML_path);
         }
     }
     public void EatObject()
