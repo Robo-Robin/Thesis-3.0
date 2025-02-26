@@ -24,12 +24,16 @@ public class InteractButtonsBehavior : MonoBehaviour
     public GameObject textStoryContainer;
     private GameObject textStoryContainerObject;
 
+    public GameObject audioStoryContainer;
+    private GameObject audioStoryContainerObject;
+
     // Start is called before the first frame update
     void Start()
     {
         UIAudio = GameObject.Find("UISoundManager").GetComponent<AudioSource>();
 
         myCanvas = FindFirstObjectByType<Canvas>().gameObject;
+        
     }
 
     // Update is called once per frame
@@ -58,7 +62,9 @@ public class InteractButtonsBehavior : MonoBehaviour
 
         if (triggeringArtefact.a_Type == ArtefactSO.StoryType.Audio)
         {
-
+            audioStoryContainerObject = Instantiate(audioStoryContainer, myCanvas.transform);
+            audioStoryContainerObject.GetComponent<AudioStoryBehavior>().triggeringArtefact = triggeringArtefact;
+            audioStoryContainerObject.GetComponent<AudioSource>().PlayOneShot(triggeringArtefact.artefactAudioStory);
         }
         else if (triggeringArtefact.a_Type == ArtefactSO.StoryType.Text)
         {

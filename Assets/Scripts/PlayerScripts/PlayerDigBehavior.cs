@@ -86,6 +86,10 @@ public class PlayerDigBehavior : MonoBehaviour
                     canDig = false;
                     //add a lil error sound if you click and cant dig
                 }
+                else if (hit.collider.gameObject.tag == "Ground")
+                {
+                    rayAtObject = false;
+                }
             }
         }
         else
@@ -95,7 +99,7 @@ public class PlayerDigBehavior : MonoBehaviour
 
         if(Input.GetKey(KeyCode.Mouse1) && canDig)
         {
-
+            simplerPlayerController.PlayerLock();
             isDigging = true;
 
             //currently only play the 1 clip for digging - we'll have a couple eventually i think
@@ -107,17 +111,26 @@ public class PlayerDigBehavior : MonoBehaviour
             if (rayAtObject)
             {
                 simplerPlayerController.UnlockCursor();
-                StartCoroutine(CreateDigMesh(hit.transform.position.y - 0.9f));
 
-                if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 100f) && hit.collider.gameObject.tag == "Artefact")
+                if (hit.collider.gameObject.tag == "SpObject")
+                {
+                    StartCoroutine(CreateDigMesh(hit.transform.position.y - 0.3f));
+                }
+
+
+
+                if (hit.collider.gameObject.tag == "Artefact")
                 {
                     hit.transform.gameObject.GetComponent<ArtefactInteractionBehavior>().interactAction.Invoke();
+                    StartCoroutine(CreateDigMesh(hit.transform.position.y - 0.8f));
                 }
+
+                // this line was inside the above if: Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 100f) && 
             }
             else
             {
-                StartCoroutine(simplerPlayerController.TempLockPlayer(4f));
-                StartCoroutine(CreateDigMesh(0f));
+                /*StartCoroutine(simplerPlayerController.TempLockPlayer(4f));*/
+                StartCoroutine(CreateAltDigMesh(0f));
             }
                 
         }
@@ -131,8 +144,22 @@ public class PlayerDigBehavior : MonoBehaviour
         if (!rayAtObject)
         {
             simplerPlayerController.RelockCursor();
+            simplerPlayerController.PlayerUnlock();
         }
         playerAudioSource.Stop();
         isDigging = false;
+
+        
+    }
+    IEnumerator CreateAltDigMesh(float height)
+    {
+        yield return new WaitForSeconds(3f);
+        Instantiate(digObject, hit.point + new Vector3(0f, - height, 0f), Quaternion.Euler(-90, 0, 0));
+        simplerPlayerController.RelockCursor();
+        simplerPlayerController.PlayerUnlock();
+        playerAudioSource.Stop();
+        isDigging = false;
+
+        
     }
 }

@@ -60,6 +60,8 @@ MonoBehaviour:
   triggeringArtefact: {fileID: 0}
   textStoryContainer: {fileID: 8647857160236552099, guid: 0526dd5961ceee7489457688cf3b4fea,
     type: 3}
+  audioStoryContainer: {fileID: 4181423139103283001, guid: 1d8f33c5fa870ea48bf1b5cb7bfe8368,
+    type: 3}
 --- !u!1 &405596908308773267
 GameObject:
   m_ObjectHideFlags: 0

@@ -105,16 +105,18 @@ public class CursorAttractor : MonoBehaviour
                 Vector3 playerForward = myPlayerController.transform.TransformDirection(Vector3.forward);
                 Vector3 playerLeft = myPlayerController.transform.TransformDirection(Vector3.left);
 
-                CurrentTarget = AllObjInRadius[0];
-                Vector3 lookatDirection = (CurrentTarget.transform.position - myPlayerController.transform.position).normalized;
+                if(CurrentTarget != null)
+                {
+                    Vector3 lookatDirection = (CurrentTarget.transform.position - myPlayerController.transform.position).normalized;
 
-                float forwardComparitor = Vector3.Dot(playerForward, lookatDirection);
+                    float forwardComparitor = Vector3.Dot(playerForward, lookatDirection);
 
-                float leftComparitor = Vector3.Dot(playerLeft, lookatDirection);
+                    float leftComparitor = Vector3.Dot(playerLeft, lookatDirection);
 
-                /*myPlayerController.wantedYRotation -= LookAtSpeed * leftComparitor;*/
+                    /*myPlayerController.wantedYRotation -= LookAtSpeed * leftComparitor;*/
 
-                myPlayerController.gameObject.transform.Rotate(new Vector3(0, -leftComparitor * LookAtSpeed, 0));
+                    myPlayerController.gameObject.transform.Rotate(new Vector3(0, -leftComparitor * LookAtSpeed, 0));
+                }
 
             }
         }
@@ -122,11 +124,13 @@ public class CursorAttractor : MonoBehaviour
 
     IEnumerator ActivateSniffUI()
     {
+        
         sniffAudioSource.Play();
         Dictionary<Transform, GameObject> itemPairUI = new Dictionary<Transform, GameObject>();
 
         if (AllObjInRadius.Count > 0)
         {
+            CurrentTarget = AllObjInRadius[0];
 
             Debug.Log(AllObjInRadius.Count);
             for(int i = 0; i < AllObjInRadius.Count; i++)
@@ -224,6 +228,7 @@ public class CursorAttractor : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        CurrentTarget = null;
 
     }
 
@@ -237,7 +242,7 @@ public class CursorAttractor : MonoBehaviour
         
     }
 
-    private void OnTriggerExit(Collider other)
+    public void OnTriggerExit(Collider other)
     {
         if (other.tag == "SpObject" || other.tag == "Object" || other.tag == "Artefact")
         {

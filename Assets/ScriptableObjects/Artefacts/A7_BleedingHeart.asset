@@ -24,7 +24,7 @@ MonoBehaviour:
   a_Type: 0
   humanButtonText: Despair
   animalButtonText: Relish
-  artefactAudioStory: {fileID: 0}
+  artefactAudioStory: {fileID: 8300000, guid: 14afcacecaad3f24a94f78a4a3447860, type: 3}
   artefactTextStory: {fileID: 0}
   artefactHTML_path: 
   artefactImageStory: {fileID: 0}

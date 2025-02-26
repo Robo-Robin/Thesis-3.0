@@ -106,6 +106,8 @@ public class ArtefactInteractionBehavior : MonoBehaviour
     public void RevealObject()
     {
         ArtefactMesh = Instantiate(ArtefactMeshContainerPrefab, Vector3.zero + gameObject.transform.position, Quaternion.Euler(45f, 45f, 0f), gameObject.transform);
+        ArtefactMesh.gameObject.tag = "Undiggable";
+        ArtefactMesh.transform.SetParent(null);
     }
 
     public void MakeInteractionButtons()
@@ -126,6 +128,11 @@ public class ArtefactInteractionBehavior : MonoBehaviour
         interactButtonsParent.GetComponentsInChildren(interactionButtons);
         interactionButtons[0].GetComponentInChildren<TMP_Text>().SetText(containedArtefact.takeButtonText);
         interactionButtons[1].GetComponentInChildren<TMP_Text>().SetText(containedArtefact.eatButtonText);
+
+        CursorAttractor sniffer = FindAnyObjectByType<CursorAttractor>();
+        sniffer.OnTriggerExit(gameObject.GetComponent<Collider>());
+
+        Destroy(gameObject);
 
     }
 

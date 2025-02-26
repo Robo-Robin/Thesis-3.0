@@ -4888,7 +4888,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.2
-  m_Center: {x: 0, y: -0.17, z: 0}
+  m_Center: {x: 0, y: -0.04, z: 0}
 --- !u!65 &3540342343253221357
 BoxCollider:
   m_ObjectHideFlags: 0

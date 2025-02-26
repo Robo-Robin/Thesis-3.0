@@ -57,7 +57,7 @@ public class CaveSpriteManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         StartCoroutine(PlayBabysFirstSteps());
         yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.W) || Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0));
-        StopCoroutine(PlayBabysFirstSteps());
+        /*StopCoroutine(PlayBabysFirstSteps());*/
 
         yield return new WaitForSeconds(0.7f);
 
@@ -71,7 +71,7 @@ public class CaveSpriteManager : MonoBehaviour
 
     IEnumerator PlayBabysFirstSteps()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(7f);
         CaveSpriteAudioSource.PlayOneShot(CaveSpriteClips[2]);
         yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.W) || Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0));
         CaveSpriteAudioSource.Stop();
@@ -96,7 +96,7 @@ public class CaveSpriteManager : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(3f);
         }
 
         CaveSpriteAudioSource.PlayOneShot(CaveSpriteClips[9]);
