@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class SceneManagerBehavior : MonoBehaviour
 {
+
+    public GameObject eventManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +60,7 @@ public class SceneManagerBehavior : MonoBehaviour
 
     private void UnloadPreviousSceneManager()
     {
+        Destroy(eventManager);
         Destroy(this);
     }
 
