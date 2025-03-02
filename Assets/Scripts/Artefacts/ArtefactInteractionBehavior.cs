@@ -33,11 +33,13 @@ public class ArtefactInteractionBehavior : MonoBehaviour
 
     public UnityEvent interactAction;
 
+    private AudioSource ArtefactAudioSource;
     public AudioClip findJingle;
 
     // Start is called before the first frame update
     void Start()
     {
+        ArtefactAudioSource = GetComponent<AudioSource>();
         
         if (ArtefactMeshContainerPrefab == null)
         {
@@ -98,7 +100,7 @@ public class ArtefactInteractionBehavior : MonoBehaviour
     public void DigUp()
     {
         moundMesh.SetActive(false); //make this a coroutine with a timer
-        RevealObject(); // same with this, possibly just make them the same coroutine. 
+        /*RevealObject();*/ // same with this, possibly just make them the same coroutine. 
         indicatorMesh.enabled = false;
         diggable = false;
     }
@@ -108,6 +110,9 @@ public class ArtefactInteractionBehavior : MonoBehaviour
         ArtefactMesh = Instantiate(ArtefactMeshContainerPrefab, Vector3.zero + gameObject.transform.position, Quaternion.Euler(45f, 45f, 0f), gameObject.transform);
         ArtefactMesh.gameObject.tag = "Undiggable";
         ArtefactMesh.transform.SetParent(null);
+
+        ArtefactAudioSource.loop = false;
+        ArtefactAudioSource.PlayOneShot(findJingle);
     }
 
     public void MakeInteractionButtons()
@@ -132,8 +137,14 @@ public class ArtefactInteractionBehavior : MonoBehaviour
         CursorAttractor sniffer = FindAnyObjectByType<CursorAttractor>();
         sniffer.OnTriggerExit(gameObject.GetComponent<Collider>());
 
-        Destroy(gameObject);
+        StartCoroutine(DestroyAfterSeconds());
 
+    }
+    
+    IEnumerator DestroyAfterSeconds()
+    {
+        yield return new WaitForSeconds(3f);
+        Destroy(gameObject);
     }
 
     public void DestroyInteractionButtons()
