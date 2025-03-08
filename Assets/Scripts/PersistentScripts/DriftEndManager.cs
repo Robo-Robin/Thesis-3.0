@@ -66,7 +66,7 @@ public class DriftEndManager : MonoBehaviour
         }*/
 
         //this section for playtesting
-        if (totalTimeActiveInMinutes >= 2 && phaseOneDone == false)
+        /*if (totalTimeActiveInMinutes >=  && phaseOneDone == false)
         {
             timerIsPaused = true;
             PhaseOnePopupExecute();
@@ -83,10 +83,10 @@ public class DriftEndManager : MonoBehaviour
             timerIsPaused = true;
             PhaseThreePopupExecute();
             phaseThreeDone = true;
-        }
+        }*/
         
         //this section for the "shipped version"
-        /*if (totalTimeActiveInMinutes >= 4 && phaseOneDone == false)
+        if (totalTimeActiveInMinutes >= 4 && phaseOneDone == false)
         {
             timerIsPaused = true;
             PhaseOnePopupExecute();
@@ -103,7 +103,7 @@ public class DriftEndManager : MonoBehaviour
             timerIsPaused = true;
             PhaseThreePopupExecute();
             phaseThreeDone = true;
-        }*/
+        }
     }
 
     void PhaseOnePopupExecute()
