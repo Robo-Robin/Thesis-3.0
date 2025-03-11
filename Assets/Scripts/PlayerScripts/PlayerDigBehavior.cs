@@ -122,7 +122,7 @@ public class PlayerDigBehavior : MonoBehaviour
                 if (hit.collider.gameObject.tag == "Artefact")
                 {
                     hit.transform.gameObject.GetComponent<ArtefactInteractionBehavior>().interactAction.Invoke();
-                    StartCoroutine(CreateDigMesh(hit.transform.position.y - 0.8f));
+                    StartCoroutine(CreateDigMesh(hit.transform.position.y + 0.2f));
                 }
 
                 // this line was inside the above if: Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 100f) && 

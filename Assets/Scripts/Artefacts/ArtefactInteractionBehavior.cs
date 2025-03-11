@@ -40,7 +40,9 @@ public class ArtefactInteractionBehavior : MonoBehaviour
     void Start()
     {
         ArtefactAudioSource = GetComponent<AudioSource>();
-        
+
+        StartCoroutine(AudioDesyncer());
+
         if (ArtefactMeshContainerPrefab == null)
         {
             myMesh = GetComponent<MeshRenderer>();
@@ -150,6 +152,14 @@ public class ArtefactInteractionBehavior : MonoBehaviour
     public void DestroyInteractionButtons()
     {
         Destroy(interactButtonsParent);
+    }
+
+    IEnumerator AudioDesyncer()
+    {
+        float randomtimer = Random.Range(1, 4);
+        ArtefactAudioSource.Pause();
+        yield return new WaitForSeconds(randomtimer);
+        ArtefactAudioSource.Play();
     }
 
     private void OnTriggerExit(Collider other)
