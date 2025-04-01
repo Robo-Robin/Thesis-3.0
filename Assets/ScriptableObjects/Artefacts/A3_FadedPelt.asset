@@ -25,5 +25,5 @@ MonoBehaviour:
   animalButtonText: Despair
   artefactAudioStory: {fileID: 0}
   artefactTextStory: {fileID: 0}
-  artefactHTML_path: ScriptableObjects/Artefacts/Stories/A3_PeltFaded.html
+  artefactHTML_path: A3_PeltFaded.html
   artefactImageStory: {fileID: 0}

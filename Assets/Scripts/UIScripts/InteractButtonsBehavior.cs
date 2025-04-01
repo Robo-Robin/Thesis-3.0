@@ -91,8 +91,8 @@ public class InteractButtonsBehavior : MonoBehaviour
             choiceButtons[0].GetComponentInChildren<TMP_Text>().SetText(triggeringArtefact.humanButtonText);
             choiceButtons[1].GetComponentInChildren<TMP_Text>().SetText(triggeringArtefact.animalButtonText);
             Debug.Log("this has gone through to this point");
-            Application.OpenURL(Application.dataPath + "/" + triggeringArtefact.artefactHTML_path);
-            Debug.Log(Application.dataPath + "/" + triggeringArtefact.artefactHTML_path);
+            Application.OpenURL(Application.streamingAssetsPath + "/" + triggeringArtefact.artefactHTML_path);
+            Debug.Log(Application.streamingAssetsPath + "/" + triggeringArtefact.artefactHTML_path);
         }
     }
     public void EatObject()
